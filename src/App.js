@@ -41,22 +41,22 @@ function App() {
 
   return (
     <div className="App">
-      <main className="container-main">
+      <main className="flex flex-col justify-center items-center min-h-screen space-y-8">
         {!done && currentQuestionId < shuffledData.length && (<header>{currentQuestionId} / {shuffledData.length}</header>)}
-        {!done && currentQuestionId < shuffledData.length && (<><span className="item--question" onClick={() => setAnswerHidden(false)}>{shuffledData[currentQuestionId][source]}</span>
-          <span className={`item--answer ${anwserHidden ? "hidden" : "expanded"} `}>{shuffledData[currentQuestionId][target]}</span>
-          <div className="container-respuestas">
-            <button className="boton-respuesta" onClick={() => resolve(currentQuestionId)}>✅</button>
-            <button className="boton-respuesta" onClick={() => doubt(currentQuestionId)}>🚩</button>
-            <button className="boton-respuesta" onClick={() => reject(currentQuestionId)}>❌</button>
+        {!done && currentQuestionId < shuffledData.length && (<><span className="item--question font-medium text-4xl md:text-7xl" onClick={() => setAnswerHidden(false)}>{shuffledData[currentQuestionId][source]}</span>
+          <span className={`item--answer ${anwserHidden ? "hidden" : "expanded"} italic text-xl md:text-3xl`}>{shuffledData[currentQuestionId][target]}</span>
+          <div className="grid grid-cols-3 gap-6 md:gap-32">
+            <button type="button" disabled={anwserHidden} className={`p-6 text-3xl md:text-6xl rounded-lg border-4 ${anwserHidden ? "bg-gray-100 border-gray-500" : "bg-lime-100 border-lime-600"}`} onClick={() => resolve(currentQuestionId)} >✅</button>
+            <button type="button" disabled={anwserHidden} className={`p-6 text-3xl md:text-6xl rounded-lg border-4 ${anwserHidden ? "bg-gray-100 border-gray-500" : "bg-yellow-100 border-yellow-500" }`} onClick={() => doubt(currentQuestionId)}>🚩</button>
+            <button type="button" disabled={anwserHidden} className={`p-6 text-3xl md:text-6xl rounded-lg border-4 ${anwserHidden ? "bg-gray-100 border-gray-500" : "bg-rose-100 border-rose-500"}`} onClick={() => reject(currentQuestionId)}>❌</button>
           </div>
         </>)}
         {done && (<>
-          <div className="container-listo">
-            <span className="item--results">✅ Correctas : <strong>{resolvedIds.length}</strong></span>
-            <span className="item--results">🚩 Dudosas : <strong>{doubtIds.length}</strong></span>
-            <span className="item--results">❌ Incorrectas : <strong>{rejectedIds.length}</strong></span>
-            <span className="item--results">Total: <strong>{shuffledData.length}</strong></span>
+          <div className="flex flex-col justify-center items-center min-h-screen text-3xl md:text-5xl space-y-2">
+            <span>✅ Correctas : <strong>{resolvedIds.length}</strong></span>
+            <span>🚩 Dudosas : <strong>{doubtIds.length}</strong></span>
+            <span>❌ Incorrectas : <strong>{rejectedIds.length}</strong></span>
+            <span>Total: <strong>{shuffledData.length}</strong></span>
           </div>
         </>)}
       </main>
