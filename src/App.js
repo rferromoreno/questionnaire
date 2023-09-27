@@ -3,7 +3,12 @@ import { shuffle } from './utils';
 import data from './data.json';
 import './App.css';
 
-const shuffledData = shuffle(data.list);
+const searchParams = new URLSearchParams(document.location.search)
+const limit = searchParams.get('limit');
+const invert = searchParams.get('invert');
+const shuffledData = shuffle(data.list).slice(0, limit ?? data.list.length);
+const source = invert ? "answer" : "question";
+const target = invert ? "question" : "answer";
 
 function App() {
   const [resolvedIds, setResolvedIds] = useState([]);
@@ -34,14 +39,12 @@ function App() {
     setDoubtIds(doubtIds.concat(id));
   }
 
-
-
   return (
     <div className="App">
       <main className="container-main">
         {!done && currentQuestionId < shuffledData.length && (<header>{currentQuestionId} / {shuffledData.length}</header>)}
-        {!done && currentQuestionId < shuffledData.length && (<><span className="item--question" onClick={() => setAnswerHidden(false)}>{shuffledData[currentQuestionId].question}</span>
-          <span className={`item--answer ${anwserHidden ? "hidden" : "expanded"} `}>{shuffledData[currentQuestionId].answer}</span>
+        {!done && currentQuestionId < shuffledData.length && (<><span className="item--question" onClick={() => setAnswerHidden(false)}>{shuffledData[currentQuestionId][source]}</span>
+          <span className={`item--answer ${anwserHidden ? "hidden" : "expanded"} `}>{shuffledData[currentQuestionId][target]}</span>
           <div className="container-respuestas">
             <button className="boton-respuesta" onClick={() => resolve(currentQuestionId)}>✅</button>
             <button className="boton-respuesta" onClick={() => doubt(currentQuestionId)}>🚩</button>
